@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TrueVoice AI</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #4F46E5;
+        }
+        form {
+            margin-top: 30px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+        button {
+            background: #4F46E5;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #3730a3;
+        }
+        a {
+            color: #22C55E;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎤 TrueVoice AI</h1>
+    <p>Detect the truth behind every voice</p>
+
+    <form action="{% url 'predict' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="audio" required>
+        <br>
+        <button type="submit">Detect</button>
+    </form>
+
+    <br>
+    <a href="/logout/">Logout</a>
+    <a href="/history/">📊 View History</a>
+
+</body>
+</html>

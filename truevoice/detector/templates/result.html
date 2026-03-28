@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body style="text-align:center; font-family:Arial; background:#0f172a; color:white; padding:50px;">
+
+    <h1>🔍 Detection Result</h1>
+
+    <h2 style="color: {% if result == 'Real Voice' %}#22C55E{% else %}#EF4444{% endif %};">
+        {{ result }}
+    </h2>
+
+    <h3>Confidence: {{ confidence }}%</h3>
+
+    <br><br>
+    <a href="/" style="color:#4F46E5;">⬅ Back</a>
+
+</body>
+</html>
