@@ -1,55 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TrueVoice AI</title>
+    <title>{{ text.title }}</title>
+
     <style>
-        body {
-            font-family: Arial;
-            background: #0f172a;
-            color: white;
-            text-align: center;
-            padding: 50px;
+        body.light { background: #ffffff; color: #000; }
+        body.dark { background: #0f172a; color: #fff; }
+
+        .navbar {
+            background: #1e293b;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
         }
-        h1 {
-            color: #4F46E5;
-        }
-        form {
-            margin-top: 30px;
-        }
-        input, button {
-            padding: 10px;
-            margin: 10px;
+
+        a { color: #22C55E; margin: 5px; text-decoration: none; }
+
+        button {
+            padding: 10px 20px;
             border-radius: 8px;
             border: none;
-        }
-        button {
             background: #4F46E5;
             color: white;
             cursor: pointer;
         }
-        button:hover {
-            background: #3730a3;
-        }
-        a {
-            color: #22C55E;
-        }
+
+        .container { text-align: center; padding: 50px; }
     </style>
 </head>
+
 <body>
 
-    <h1>🎤 TrueVoice AI</h1>
-    <p>Detect the truth behind every voice</p>
+<div class="navbar">
+    <div><b>🎤 {{ text.title }}</b></div>
+
+    <div>
+        🌍 
+        <a href="/?lang=en">English</a> |
+        <a href="/?lang=hi">हिंदी</a> |
+        <a href="/?lang=mr">मराठी</a>
+    </div>
+
+    <div>
+        <a href="/history/">{{ text.history }}</a> |
+        <a href="/logout/">{{ text.logout }}</a> |
+        <button onclick="toggleMode()">🌙</button>
+    </div>
+</div>
+
+<div class="container">
+    <h1>{{ text.title }}</h1>
 
     <form action="{% url 'predict' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        <input type="hidden" name="lang" value="{{ lang }}">
         <input type="file" name="audio" required>
-        <br>
-        <button type="submit">Detect</button>
+        <br><br>
+        <button type="submit">{{ text.detect }}</button>
     </form>
+</div>
 
-    <br>
-    <a href="/logout/">Logout</a>
-    <a href="/history/">📊 View History</a>
+<script>
+function toggleMode() {
+    let body = document.body;
+    if (body.classList.contains("dark")) {
+        body.classList.remove("dark");
+        body.classList.add("light");
+        localStorage.setItem("theme", "light");
+    } else {
+        body.classList.remove("light");
+        body.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+    }
+}
+
+window.onload = function () {
+    let theme = localStorage.getItem("theme");
+    if (theme === "light") {
+        document.body.classList.add("light");
+    } else {
+        document.body.classList.add("dark");
+    }
+}
+</script>
 
 </body>
 </html>
