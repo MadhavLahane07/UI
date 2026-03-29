@@ -5,17 +5,48 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 
+translations = {
+    "en": {
+        "title": "TrueVoice AI",
+        "detect": "Detect",
+        "history": "History",
+        "logout": "Logout"
+    },
+    "hi": {
+        "title": "ट्रूवॉइस एआई",
+        "detect": "जांच करें",
+        "history": "इतिहास",
+        "logout": "लॉगआउट"
+    },
+    "mr": {
+        "title": "ट्रूवॉइस एआई",
+        "detect": "तपासा",
+        "history": "इतिहास",
+        "logout": "बाहेर पडा"
+    }
+}
+
 def home(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    return render(request, "index.html")
+    lang = request.GET.get('lang', 'en')  # default English
+    text = translations.get(lang, translations['en'])
+
+    return render(request, "index.html", {
+        "text": text,
+        "lang": lang
+    })
 
 from .models import Prediction
 
 def predict(request):
     if request.method == "POST":
         audio_file = request.FILES['audio']
+
+        # 🌍 GET LANGUAGE
+        lang = request.POST.get('lang', 'en')
+        text = translations.get(lang, translations['en'])
 
         file_path = "temp.wav"
 
@@ -25,7 +56,7 @@ def predict(request):
 
         result, confidence = predict_audio(file_path)
 
-        # 🔥 SAVE TO DATABASE
+        # SAVE HISTORY
         Prediction.objects.create(
             user=request.user,
             result=result,
@@ -36,8 +67,13 @@ def predict(request):
 
         return render(request, "result.html", {
             "result": result,
-            "confidence": round(confidence * 100, 2)
+            "confidence": round(confidence * 100, 2),
+            "text": text,
+            "lang": lang
         })
+
+    return redirect('home')
+
 
 def signup_view(request):
     if request.method == "POST":
