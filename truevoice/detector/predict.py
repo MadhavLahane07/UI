@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.models import load_model
 from PIL import Image
 import os
+import matplotlib
+matplotlib.use('Agg')   # 🔥 Important fix (no GUI)
 
 IMG_SIZE = 128
 
@@ -29,6 +31,9 @@ def audio_to_image(audio_path):
     plt.close()
 
     return temp_img
+
+
+
 
 def predict_audio(audio_path):
     img_path = audio_to_image(audio_path)

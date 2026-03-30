@@ -78,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'truevoice_db',
         'USER': 'root',
-        'PASSWORD': 'Maddy$07',  
+        'PASSWORD': 'Pournima@743',  
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -120,3 +120,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+from django.contrib.messages import constants as messages
+LOGIN_URL = '/login/'

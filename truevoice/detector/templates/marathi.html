@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .dashboard {
+        padding: 180px 8% 100px;
+        text-align: center;
+    }
+
+    .upload-box {
+        border: 2px dashed #00ff88;
+        padding: 50px;
+        border-radius: 15px;
+        margin: 30px auto;
+        width: 420px;
+        cursor: pointer;
+
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(15px);
+    }
+
+    .result-box {
+        margin-top: 25px;
+        font-size: 20px;
+    }
+
+    .history {
+        margin-top: 40px;
+    }
+
+    .history li {
+        margin: 8px 0;
+        color: #8b949e;
+    }
+</style>
+
+<section class="dashboard">
+
+    <h2>ऑडिओ अपलोड करा</h2>
+
+    <!-- UPLOAD -->
+    <div class="upload-box" onclick="document.getElementById('audioInput').click()">
+        <input type="file" id="audioInput" hidden>
+        <p>🎧 ऑडिओ येथे ड्रॅग करा किंवा अपलोड करण्यासाठी क्लिक करा</p>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-box">
+        <h3>निकाल: <span id="resultText">---</span></h3>
+        <p>विश्वास: <span id="confidence">0%</span></p>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="history">
+        <h3>इतिहास</h3>
+        <ul id="historyList"></ul>
+    </div>
+
+</section>
+
+<script>
+document.getElementById("audioInput").addEventListener("change", function() {
+
+    let isReal = Math.random() > 0.5;
+
+    let result = isReal ? "खरे" : "बनावट";
+    let confidence = Math.floor(Math.random() * 100);
+
+    document.getElementById("resultText").innerText = result;
+    document.getElementById("confidence").innerText = confidence + "%";
+
+    let li = document.createElement("li");
+    li.innerText = result + " (" + confidence + "%)";
+    document.getElementById("historyList").appendChild(li);
+});
+</script>
+
+{% endblock %}

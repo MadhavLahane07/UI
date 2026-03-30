@@ -1,21 +1,79 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ text.title }}</title>
-</head>
-<body style="background:#0f172a; color:white; text-align:center; padding:50px;">
+{% extends "base.html" %}
 
-    <h1>{{ text.title }}</h1>
+{% block content %}
 
-    <h2 style="color: {% if result == 'Real Voice' %}#22C55E{% else %}#EF4444{% endif %};">
-        {{ result }}
-    </h2>
+<style>
+    .result-page {
+        padding: 180px 8% 100px;
+        text-align: center;
+    }
 
-    <h3>Confidence: {{ confidence }}%</h3>
+    .result-card {
+        margin: auto;
+        padding: 40px;
+        width: 400px;
+        border-radius: 20px;
 
-    <br><br>
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(15px);
 
-    <a href="/?lang={{ lang }}" style="color:#4F46E5;">⬅ Back</a>
+        border: 1px solid rgba(255,255,255,0.1);
 
-</body>
-</html>
+        box-shadow:
+            0 0 20px rgba(0,255,136,0.2),
+            inset 0 0 10px rgba(255,255,255,0.05);
+    }
+
+    .result-text {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 20px 0;
+    }
+
+    .real { color: #22C55E; }
+    .fake { color: #EF4444; }
+
+    .confidence {
+        font-size: 18px;
+        color: #8b949e;
+    }
+
+    .back-btn {
+        margin-top: 30px;
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 10px;
+        background: #4F46E5;
+        color: white;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .back-btn:hover {
+        background: #3730a3;
+    }
+</style>
+
+<section class="result-page">
+
+    <div class="result-card">
+
+        <h2>Analysis Result</h2>
+
+        <div class="result-text 
+            {% if result == 'Real' or result == 'Real Voice' %}real{% else %}fake{% endif %}">
+            
+            {{ result }}
+        </div>
+
+        <div class="confidence">
+            Confidence: {{ confidence }}%
+        </div>
+
+        <a href="/english/" class="back-btn">⬅ Back</a>
+
+    </div>
+
+</section>
+
+{% endblock %}

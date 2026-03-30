@@ -4,6 +4,7 @@ from .predict import predict_audio
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.contrib import messages
 
 translations = {
     "en": {
@@ -89,16 +90,20 @@ def signup_view(request):
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('/')   # dashboard
+        else:
+            messages.error(request, "Invalid username or password")
 
-    return render(request, "login.html")
+    return render(request, 'login.html')
+
+
 
 def logout_view(request):
     logout(request)
@@ -107,3 +112,18 @@ def logout_view(request):
 def history(request):
     data = Prediction.objects.filter(user=request.user).order_by('-created_at')
     return render(request, "history.html", {"data": data})
+
+
+
+
+def home(request):
+    return render(request, 'index.html')
+
+def english(request):
+    return render(request, 'english.html')
+
+def marathi(request):
+    return render(request, 'marathi.html')
+
+def hindi(request):
+    return render(request, 'hindi.html')
