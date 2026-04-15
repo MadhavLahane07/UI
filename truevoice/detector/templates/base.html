@@ -78,6 +78,31 @@
         .logo svg {
             filter: drop-shadow(0 0 8px #00ff88);
         }
+             
+.wave-logo rect {
+    fill: #00ff88;
+    transform-origin: center;
+    animation: wave 1.2s infinite ease-in-out;
+}
+
+/* smooth wave motion */
+.wave-logo rect:nth-child(1) { animation-delay: 0s; }
+.wave-logo rect:nth-child(2) { animation-delay: 0.1s; }
+.wave-logo rect:nth-child(3) { animation-delay: 0.2s; }
+.wave-logo rect:nth-child(4) { animation-delay: 0.3s; }
+.wave-logo rect:nth-child(5) { animation-delay: 0.2s; }
+.wave-logo rect:nth-child(6) { animation-delay: 0.1s; }
+.wave-logo rect:nth-child(7) { animation-delay: 0s; }
+
+@keyframes wave {
+    0%, 100% {
+        transform: scaleY(0.7);
+    }
+    50% {
+        transform: scaleY(1.3);
+    }
+}
+
 
         nav {
             display: flex;
@@ -363,6 +388,26 @@ body::before {
 .light-mode::before {
     background: rgba(255,255,255,0.5); /* adjust 0.4–0.6 */
 }
+
+.user-name{
+    padding:6px 12px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(0,255,136,0.4);
+    color:#00ff88;
+    font-size:14px;
+}
+.logo-link{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logo-link:hover{
+    opacity: 0.9;
+}
+
     </style>
 </head>
 
@@ -372,24 +417,45 @@ body::before {
 <header>
 
     <div class="logo">
-        <svg width="40" height="25" viewBox="0 0 40 25">
-            <rect x="2" y="10" width="3" height="6"/>
-            <rect x="7" y="7" width="3" height="10"/>
-            <rect x="12" y="5" width="3" height="14"/>
-            <rect x="17" y="2" width="3" height="20"/>
-            <rect x="22" y="5" width="3" height="14"/>
-            <rect x="27" y="7" width="3" height="10"/>
-            <rect x="32" y="10" width="3" height="6"/>
-        </svg>
 
-        TrueVoice <span class="highlight">AI</span>
-    </div>
+   <svg class="wave-logo" width="40" height="25" viewBox="0 0 40 25">
+
+    <rect x="2"  y="10" width="3" height="6"/>
+    <rect x="7"  y="7"  width="3" height="10"/>
+    <rect x="12" y="5"  width="3" height="14"/>
+    <rect x="17" y="2"  width="3" height="20"/>
+    <rect x="22" y="5"  width="3" height="14"/>
+    <rect x="27" y="7"  width="3" height="10"/>
+    <rect x="32" y="10" width="3" height="6"/>
+
+</svg>
+
+    <a href="{% url 'home' %}" class="logo-link">
+    TrueVoice <span class="highlight">AI</span>
+</a>
+</div>
 
     <nav>
         <a href="/"><i class="fas fa-home"></i> Home</a>
         <a href="/english"><i class="fas fa-headphones"></i> Check Audio</a>
-        <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
-        <a href="/signup"><i class="fas fa-user-plus"></i> Signup</a>
+       
+
+        {% if user.is_authenticated %}
+    <span class="user-name">👤 {{ user.username }}</span>
+    <a href="{% url 'history' %}">
+        <i class="fas fa-clock-rotate-left"></i> History
+    </a>
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+{% else %}
+    <a href="{% url 'login' %}">
+        <i class="fas fa-sign-in-alt"></i> Login
+    </a>
+    <a href="{% url 'signup' %}">
+        <i class="fas fa-user-plus"></i> Signup
+    </a>
+{% endif %}
 
         <div class="nav-controls">
             <div class="lang-dropdown">

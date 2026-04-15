@@ -144,6 +144,19 @@ h2 {
     color: #22c55e;
     text-decoration: none;
 }
+.logo a,
+.logo-link{
+    text-decoration: none;
+    color: white;
+}
+
+.logo-link span{
+    color: #22c55e;
+}
+
+.logo-link:hover{
+    opacity: 0.9;
+}
 </style>
 </head>
 
@@ -151,7 +164,12 @@ h2 {
 
 <div class="container">
 
-    <div class="logo">TrueVoice <span>AI</span></div>
+    
+        <div class="logo">
+    <a href="{% url 'home' %}" class="logo-link">
+        TrueVoice <span>AI</span>
+    </a>
+</div>
 
     <h2>Create Account</h2>
 
@@ -174,12 +192,14 @@ h2 {
         </div>
 
         <div class="input-box">
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
         </div>
 
+
         <div class="input-box">
-            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+           <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
         </div>
+        <div id="password-error" class="error" style="display:none;"></div>
 
         <button type="submit" class="btn">Sign Up</button>
 
@@ -190,6 +210,22 @@ h2 {
     </form>
 
 </div>
+
+
+<script>
+let confirmInput = document.getElementById("confirm_password");
+let passwordInput = document.getElementById("password");
+let errorBox = document.getElementById("password-error");
+
+confirmInput.addEventListener("keyup", function() {
+    if (passwordInput.value !== confirmInput.value) {
+        errorBox.style.display = "block";
+        errorBox.innerText = "❌ Passwords do not match!";
+    } else {
+        errorBox.style.display = "none";
+    }
+});
+</script>
 
 </body>
 </html>

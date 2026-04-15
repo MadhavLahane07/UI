@@ -58,19 +58,29 @@
 
     <div class="result-card">
 
-        <h2>Analysis Result</h2>
+        <h2>{{ text.result }}</h2>
 
-        <div class="result-text 
-            {% if result == 'Real' or result == 'Real Voice' %}real{% else %}fake{% endif %}">
-            
+
+         <div class="result-text {% if result_type == 'real' %}real{% else %}fake{% endif %}">
             {{ result }}
-        </div>
+         </div>
 
         <div class="confidence">
-            Confidence: {{ confidence }}%
+            {{ text.confidence }}: {{ confidence }}%
         </div>
 
-        <a href="/english/" class="back-btn">⬅ Back</a>
+       
+        <a href="
+{% if lang == 'en' %}
+    {% url 'english' %}
+{% elif lang == 'mr' %}
+    {% url 'marathi' %}
+{% else %}
+    {% url 'hindi' %}
+{% endif %}
+" class="back-btn">
+⬅ {{ text.back }}
+</a>
 
     </div>
 

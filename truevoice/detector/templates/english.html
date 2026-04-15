@@ -65,6 +65,7 @@
     <!-- 🔥 REAL FORM -->
     <form action="{% url 'predict' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+       
         <input type="hidden" name="lang" value="en">
 
         <div class="upload-box" onclick="document.getElementById('audioInput').click()">
@@ -72,7 +73,7 @@
             <p>🎧 Drag & Drop Audio or Click to Upload</p>
         </div>
 
-     <button type="submit" class="btn-main">Detect</button>c
+     <button type="submit" class="btn-main">Detect</button>
     </form>
 
     <!-- 🔥 RESULT FROM BACKEND -->
@@ -88,20 +89,10 @@
     </div>
     {% endif %}
 
-    <!-- 🔥 HISTORY FROM DATABASE -->
-    <div class="history">
-        <h3>History</h3>
-        <ul>
-            {% for item in request.user.prediction_set.all %}
-                <li>
-                    {{ item.result }} ({{ item.confidence|floatformat:2 }}%)
-                </li>
-            {% empty %}
-                <li>No history yet</li>
-            {% endfor %}
-        </ul>
-    </div>
+   
 
 </section>
 
 {% endblock %}
+
+

@@ -1,30 +1,58 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>History</title>
-</head>
-<body style="background:#0f172a; color:white; text-align:center;">
 
-    <h1>📊 Prediction History</h1>
+{% extends "base.html" %}
 
-    <table border="1" style="margin:auto; color:white;">
-        <tr>
-            <th>Result</th>
-            <th>Confidence</th>
-            <th>Date</th>
-        </tr>
+{% block content %}
+
+<style>
+    .history-page {
+        padding: 180px 8% 100px;
+        text-align: center;
+    }
+
+    .history-card {
+        margin: auto;
+        width: 500px;
+        padding: 30px;
+        border-radius: 20px;
+
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(15px);
+
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .history-item {
+        padding: 10px;
+        margin: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        color: #8b949e;
+    }
+
+    .real { color: #22C55E; }
+    .fake { color: #EF4444; }
+</style>
+
+<section class="history-page">
+
+    <div class="history-card">
+        <h2>Your History</h2>
 
         {% for item in data %}
-        <tr>
-            <td>{{ item.result }}</td>
-            <td>{{ item.confidence }}%</td>
-            <td>{{ item.created_at }}</td>
-        </tr>
+            <div class="history-item">
+                <span class="{% if 'Real' in item.result %}real{% else %}fake{% endif %}">
+                    {{ item.result }}
+                </span>
+                ({{ item.confidence|floatformat:2 }}%)
+
+                <br>
+                <small>{{ item.created_at }}</small>
+            </div>
+        {% empty %}
+            <p>No history yet</p>
         {% endfor %}
-    </table>
 
-    <br>
-    <a href="/">⬅ Back</a>
+    </div>
 
-</body>
-</html>
+</section>
+
+{% endblock %}

@@ -146,13 +146,31 @@ h2 {
     color: #22c55e;
     text-decoration: none;
 }
+
+.logo a,
+.logo-link{
+    text-decoration: none;
+    color: white;
+}
+
+.logo-link span{
+    color: #22c55e;
+}
+
+.logo-link:hover{
+    opacity: 0.9;
+}
 </style>
 </head>
 <body>
 
     <div class="container">
 
-        <div class="logo">TrueVoice <span>AI</span></div>
+        <div class="logo">
+    <a href="{% url 'home' %}" class="logo-link">
+        TrueVoice <span>AI</span>
+    </a>
+</div>
 
         <h2>Login to Account</h2>
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -25,6 +26,9 @@
         font-size: 20px;
     }
 
+    .real { color: #00ff88; }
+    .fake { color: red; }
+
     .history {
         margin-top: 40px;
     }
@@ -33,47 +37,77 @@
         margin: 8px 0;
         color: #8b949e;
     }
+
+
+    .btn-main {
+    background: linear-gradient(135deg, #1ab957, #077a3b66);
+    color: #000;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+}
+
+.btn-main:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+}
 </style>
+
+
 
 <section class="dashboard">
 
     <h2>ऑडियो अपलोड करें</h2>
 
-    <!-- UPLOAD -->
-    <div class="upload-box" onclick="document.getElementById('audioInput').click()">
-        <input type="file" id="audioInput" hidden>
-        <p>🎧 ऑडियो यहाँ ड्रैग करें या अपलोड करने के लिए क्लिक करें</p>
-    </div>
+    <!-- 🔥 REAL FORM -->
+    <form action="{% url 'predict' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="lang" value="hi">
 
-    <!-- RESULT -->
+        <div class="upload-box" onclick="document.getElementById('audioInput').click()">
+            <input type="file" name="audio" id="audioInput" accept=".wav,.mp3" hidden required>
+            <p>🎧 ऑडियो यहाँ ड्रैग करें या अपलोड करने के लिए क्लिक करें</p>
+        </div>
+
+     <button type="submit" class="btn-main">जांच करें</button>
+    </form>
+
+
+     <!-- 🔥 RESULT FROM BACKEND -->
+    {% if result %}
     <div class="result-box">
-        <h3>परिणाम: <span id="resultText">---</span></h3>
-        <p>विश्वास: <span id="confidence">0%</span></p>
+        <h3>
+           परिणाम:
+            <span class="{% if result == 'Real Voice' %}real{% else %}fake{% endif %}">
+                {{ result }}
+            </span>
+        </h3>
+        <p>विश्वास: {{ confidence }}%</p>
     </div>
+    {% endif %}
 
-    <!-- HISTORY -->
+     <!-- 🔥 HISTORY FROM DATABASE 
     <div class="history">
         <h3>इतिहास</h3>
-        <ul id="historyList"></ul>
+        <ul>
+            {% for item in request.user.prediction_set.all %}
+                <li>
+                    {{ item.result }} ({{ item.confidence|floatformat:2 }}%)
+                </li>
+            {% empty %}
+                <li>No history yet</li>
+            {% endfor %}
+        </ul>
     </div>
+    -->
+
 
 </section>
 
-<script>
-document.getElementById("audioInput").addEventListener("change", function() {
-
-    let isReal = Math.random() > 0.5;
-
-    let result = isReal ? "असली" : "नकली";
-    let confidence = Math.floor(Math.random() * 100);
-
-    document.getElementById("resultText").innerText = result;
-    document.getElementById("confidence").innerText = confidence + "%";
-
-    let li = document.createElement("li");
-    li.innerText = result + " (" + confidence + "%)";
-    document.getElementById("historyList").appendChild(li);
-});
-</script>
-
 {% endblock %}
+
