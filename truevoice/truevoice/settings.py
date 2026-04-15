@@ -78,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'truevoice_db',
         'USER': 'root',
-        'PASSWORD': 'Pournima@743',  
+        'PASSWORD': 'Maddy$07',  
         'HOST': 'localhost',
         'PORT': '3306',
     }
